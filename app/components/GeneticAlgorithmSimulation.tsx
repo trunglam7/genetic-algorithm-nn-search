@@ -7,6 +7,7 @@ export default function GeneticAlgorithmSimulation() {
 
   //const [generation, setGeneration] = useState(1);
   const generationRef = useRef(0);
+  const mutationRateRef = useRef(0);
   const averageFitness = useRef(Infinity);
   const walls: any = []; // Array to store wall positions
 
@@ -16,7 +17,6 @@ export default function GeneticAlgorithmSimulation() {
   const numHiddenNodesPerLayer = 16;
   const numHiddenNodes = numHiddenLayers * numHiddenNodesPerLayer;
   const numOutputNodes = 8;
-  const mutationRate = 0.1;
   const selectionRate = 0.5;
   const numWalls = 100;
   const penaltyFactor = 2;
@@ -158,6 +158,8 @@ export default function GeneticAlgorithmSimulation() {
   
       const parents: any = [];
       const children: any[] = [];
+      const mutationRate = Math.random();
+      mutationRateRef.current = mutationRate;
   
       for (const individual of population){
         parents.push({
@@ -167,8 +169,8 @@ export default function GeneticAlgorithmSimulation() {
         })
       }
   
-      parents.sort(() => Math.random() - 0.5)
-  
+      parents.sort(() => Math.random() - 0.5);
+
       let i = 0;
       while (parents.length + children.length < populationSize) {
         let parentOne: any;
@@ -253,6 +255,7 @@ export default function GeneticAlgorithmSimulation() {
               p.rect(target.x, target.y, 10, 10);
               p.text(`Generation: ${generationRef.current}`, 10, 20);
               p.text(`Average Fitness: ${1 - (averageFitness.current / Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2))}`, 10, 40);
+              p.text(`Mutation Rate: ${mutationRateRef.current}`, 10, 60);
       
               for (const individual of population) {
       
@@ -314,15 +317,7 @@ export default function GeneticAlgorithmSimulation() {
         }
       
           // Create a new P5 instance with the sketch function
-          
-          if (document.getElementById('geneticAlgorithmCanvas')) {
-            try {
-              canvas = new p5(sketch);
-            } catch (error) {
-              console.log("Error creating p5 instance:", error);
-              // Handle the error or simply log it
-            }
-          }
+          canvas = new p5(sketch);
       
           // Cleanup function to remove the P5 instance when the component unmounts
           return () => {
