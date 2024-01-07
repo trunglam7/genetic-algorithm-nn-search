@@ -18,8 +18,9 @@ export default function GeneticAlgorithmSimulation() {
   const numHiddenNodes = numHiddenLayers * numHiddenNodesPerLayer;
   const numOutputNodes = 8;
   const selectionRate = 0.5;
-  const numWalls = 100;
+  const numWalls = 50;
   const penaltyFactor = 2;
+  const defaultMutationRate = 0.13;
   const numWeights = (inputSize * numHiddenNodesPerLayer) + (numHiddenNodesPerLayer * numHiddenNodesPerLayer) + (numHiddenNodesPerLayer * numOutputNodes);
 
   const reluActivate = (value: number) => Math.max(0, value);
@@ -158,7 +159,13 @@ export default function GeneticAlgorithmSimulation() {
   
       const parents: any = [];
       const children: any[] = [];
-      const mutationRate = Math.random();
+
+      let mutationRate = defaultMutationRate;
+
+      if(generationRef.current % 10 == 0) {
+        mutationRate = 0.5;
+      }
+    
       mutationRateRef.current = mutationRate;
   
       for (const individual of population){
