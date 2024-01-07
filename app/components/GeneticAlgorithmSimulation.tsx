@@ -87,12 +87,31 @@ export default function GeneticAlgorithmSimulation() {
     }
   };
 
+  const checkCollision = (x: number, y: number) => {
+    for (const wall of walls) {
+      if (
+        x < wall.x + wall.width &&
+        x + 10 > wall.x &&
+        y < wall.y + wall.height &&
+        y + 10 > wall.y
+      ) {
+        return true; // Collision detected
+      }
+    }
+    return false; // No collision
+  };
+
   useEffect(() => {
-    const initX = Math.random() * window.innerWidth;
-    const initY = Math.random() * window.innerHeight;
+    let initX: number;
+    let initY: number;
     let canvas : any;
 
-    const initializedPopulation = () => {
+    do{
+      initX = Math.random() * window.innerWidth;
+      initY = Math.random() * window.innerHeight;
+    } while(checkCollision(initX, initY))
+
+    const initializedPopulation = (initX: number, initY: number) => {
 
       const population = [];
   
@@ -237,14 +256,15 @@ export default function GeneticAlgorithmSimulation() {
             p.setup = () => {
               p.createCanvas(window.innerWidth, window.innerHeight);
       
-              population = initializedPopulation();
-      
-              target = {
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-              }
-      
               generateWalls();
+              population = initializedPopulation(initX, initY);
+
+              do {
+                target = {
+                  x: Math.random() * window.innerWidth,
+                  y: Math.random() * window.innerHeight,
+                };
+              } while (checkCollision(target.x, target.y));
       
             };
       
