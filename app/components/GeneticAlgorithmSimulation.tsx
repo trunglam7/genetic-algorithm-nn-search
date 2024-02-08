@@ -196,7 +196,7 @@ export default function GeneticAlgorithmSimulation() {
         })
       }
 
-      parents.sort(() => Math.random() - 0.5);
+      //parents.sort(() => Math.random() - 0.5);
       
       let i = 0;
       while (parents.length + children.length < populationSize) {
