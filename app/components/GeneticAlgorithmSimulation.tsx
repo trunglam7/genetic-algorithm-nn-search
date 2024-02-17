@@ -182,9 +182,9 @@ export default function GeneticAlgorithmSimulation() {
 
       let mutationRate = defaultMutationRate;
 
-      if(generationRef.current % 10 == 0) {
-        mutationRate = amplifiedMutationRate;
-      }
+      // if(generationRef.current % 10 == 0) {
+       // mutationRate = amplifiedMutationRate;
+      //}
     
       mutationRateRef.current = mutationRate;
   
