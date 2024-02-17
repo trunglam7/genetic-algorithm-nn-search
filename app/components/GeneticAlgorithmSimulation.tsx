@@ -18,7 +18,8 @@ export default function GeneticAlgorithmSimulation() {
   const numHiddenNodes = numHiddenLayers * numHiddenNodesPerLayer;
   const numOutputNodes = 8;
   const selectionRate = 0.5;
-  const numWalls = 50;
+  const wallDensity = 0.0005;
+  const numWalls = Math.floor(window.innerWidth * window.innerHeight * wallDensity);
   const penaltyFactor = 10;
   const defaultMutationRate = 0.07;
   const amplifiedMutationRate = 0.13;
