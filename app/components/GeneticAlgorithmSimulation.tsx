@@ -29,7 +29,7 @@ export default function GeneticAlgorithmSimulation() {
   const seluActivation = (value: number) => {
     const scale = 1.0507;
     const alpha = 1.6733;
-    return scale * (x > 0 ? x : alpha * (Math.exp(x) - 1));
+    return scale * (value > 0 ? value : alpha * (Math.exp(value) - 1));
   }
   
   const softmaxActivation = (inputArray: number[]) => {
