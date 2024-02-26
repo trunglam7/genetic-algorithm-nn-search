@@ -25,7 +25,13 @@ export default function GeneticAlgorithmSimulation() {
   const numWeights = (inputSize * numHiddenNodesPerLayer) + (numHiddenNodesPerLayer * numHiddenNodesPerLayer) + (numHiddenNodesPerLayer * numOutputNodes);
 
   const reluActivate = (value: number) => Math.max(0, value);
-
+  
+  const seluActivation = (value: number) => {
+    const scale = 1.0507;
+    const alpha = 1.6733;
+    return scale * (x > 0 ? x : alpha * (Math.exp(x) - 1));
+  }
+  
   const softmaxActivation = (inputArray: number[]) => {
     const expValues = inputArray.map((x) => Math.exp(x));
     const sumExpValues = expValues.reduce((acc, value) => acc + value, 0);
@@ -47,7 +53,7 @@ export default function GeneticAlgorithmSimulation() {
         for (let j = 0; j < layerInput.length; j++) {
           hiddenNodeInput += layerInput[j] * weights[layer * numHiddenNodesPerLayer * inputSize + i * inputSize + j];
         }
-        hiddenNodes.push(reluActivate(hiddenNodeInput + bias[layer * numHiddenNodesPerLayer + i]));
+        hiddenNodes.push(seluActivation(hiddenNodeInput + bias[layer * numHiddenNodesPerLayer + i]));
       }
       layerInput = hiddenNodes;
     }
